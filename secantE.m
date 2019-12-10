@@ -6,8 +6,8 @@ function [root,errr,trys]=secantE(fun,d,guess,varargin)
 ip2=inputParser;%get the optional parameters for tolerance, iterations
 addRequired(ip2,'fun'); addRequired(ip2,'d'); addRequired(ip2,'guess');
 addParameter(ip2,'ARE',1e-4,@isscalar);
-addParameter(ip2,'digits',0,@(x) x==round(x));
-addParameter(ip2,'tries',9999,@(x) x==round(x));
+addParameter(ip2,'digits',0,@(x) x==abs(round(x)));
+addParameter(ip2,'tries',9999,@(x) x==abs(round(x)));
 parse(ip2,fun,d,guess,varargin{:})%ip.Results.[var] to call arguments
 if ip2.Results.digits==0
     error=ip2.Results.ARE;

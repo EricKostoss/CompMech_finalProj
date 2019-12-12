@@ -71,7 +71,8 @@ Pr=.7;
 % Solve ODE
 zai=fzero(@res,0,[],2,fODE(:,1),etaODE);
 [n,theta]=ode45(@dydx,[0 10],[1 zai],[],2,fODE(:,1),etaODE);
-figure(4); plot(theta(:,1),n); xlim([0,1]); xlabel('theta'); ylabel('eta')
+figure(4); hold off; plot(theta(:,1),n); xlim([0,1]);
+xlabel('theta'); ylabel('eta')
 %there's a theta value of -1.687e-16, so we squish the plot display limit.
 
 %% II.j
@@ -89,7 +90,7 @@ fprintf('theta''(0): %5.4f, compare %5.4f\n',-1*dtheta(1),.235*(Pr^(1/3)))
 
 %% II.l
 % Solve Eq.(4) and compare to theta(n)
-fetaSpln=spline(etaODE,fODE(:,1));
-[x,theta]=CFD(fetaSpln,5);
+fetaSplnl=spline(etaODE,fODE(:,1));
+[x,theta]=CFD(fetaSplnl,5);
 %f=@(eta) ppval(fetaSpln,eta);
-figure(4); hold on; plot(theta,x); hold off; xlim([0 1]);
+figure(4); hold on; plot(theta,x); xlim([0 1]);

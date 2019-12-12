@@ -33,15 +33,16 @@ fprintf('Cf*(Re^(5/4))/8: %5.4f, compare %5.4f\n',d2f(1),1.778/8)
 
 %% I.d
 % maximum velocity
-fetaSpln=spline(eta,df);
-fetaReg=@(eta,neg,dwn) ((-2*neg)+1)*(ppval(fetaSpln,eta)-(dwn*.01));
+dfetaSpln=spline(eta,df);
+fetaReg=@(eta,neg,dwn) ((-2*neg)+1)*(ppval(dfetaSpln,eta)-(dwn*.01));
 etaMax=goldmin(fetaReg,0,10,1e-6,9999,true,false);
 figure(2); hold on;
 plot((etaMax-.1):.01:(etaMax+.1),...
-    ppval(fetaSpln,(etaMax-.1):.01:(etaMax+.1)),...
-    etaMax,ppval(fetaSpln,etaMax),'*')
+    ppval(dfetaSpln,(etaMax-.1):.01:(etaMax+.1)),...
+    etaMax,ppval(dfetaSpln,etaMax),'*')
 fprintf('n [eta]: %5.4f, compare 2.029\n',etaMax)
-fprintf('f''(n) =  %5.4f, compare %5.4f\n',ppval(fetaSpln,etaMax),2^(-5/3))
+fprintf('f''(n) =  %5.4f, compare %5.4f\n',...
+    ppval(dfetaSpln,etaMax),2^(-5/3))
 
 %% I.e
 % wall jet momentum flux
@@ -90,7 +91,9 @@ fprintf('theta''(0): %5.4f, compare %5.4f\n',-1*dtheta(1),.235*(Pr^(1/3)))
 
 %% II.l
 % Solve Eq.(4) and compare to theta(n)
-fetaSplnl=spline(etaODE,fODE(:,1));
-[x,theta]=CFD(fetaSplnl,5);
+fetaSpln=spline(eta,f);
+[x,theta]=CFD(fetaSpln,5);
 %f=@(eta) ppval(fetaSpln,eta);
-figure(4); hold on; plot(theta,x); xlim([0 1]);
+figure(4); hold on; plot(theta,x)
+[xx,thetaa]=CFD(fetaSpln,11); [dad,thetaaa]=CFD(fetaSpln,33);
+plot(thetaa,xx,thetaaa,dad,'--'); legend('I.i','5node','11node','33node')

@@ -77,6 +77,8 @@ for i=1:length(eta)
 end
 figure(1); hold off; plot(eta,f); xlabel('eta'); ylabel('script f')
 
+%%
+% <include>bisectE.m</include>
 %% I.b
 % We calculated the derivative of the function f(eta) which we obtained
 % from part A we used the diffc2() function with a step size of 0.05 as
@@ -88,6 +90,8 @@ df=diffc2(f,0.05);
 figure(2); hold off; plot(eta,df);
 xlabel('eta'); ylabel('derivative script f')
 
+%%
+% <include>diffc2.m</include>
 %% I.c
 % Similar to part B we used the diffc2() function to calculate the
 % function of f''(eta). we did this using the first derivative that we
@@ -126,6 +130,8 @@ fprintf('n [eta]: %5.4f, compare 2.029\n',etaMax)
 fprintf('f''(n) =  %5.4f, compare %5.4f\n',...
     ppval(dfetaSpln,etaMax),2^(-5/3))
 
+%%
+% <include>goldmin.m</include>
 %% I.e
 % The procedure on Part E is focused around the MATLAB fcn trapz(). We used
 % this to calculate the approximate integral of eta with df^2. Then we
@@ -223,6 +229,10 @@ figure(4); hold off; plot(theta(:,1),n); xlim([0,1]);
 xlabel('theta'); ylabel('eta')
 %there's a theta value of -1.687e-16 and only one, hence xlim()
 
+%%
+% <include>res.m</include>
+%%
+% <include>dydx.m</include>
 %% II.j
 % The way that we went about solving Part j is that we made a spline using
 % the criteria of eta and theta. Then we moved the spline down by a value
@@ -275,3 +285,5 @@ fetaSpln=spline(eta,f);
 figure(4); hold on; plot(theta,x)
 [xx,thetaa]=CFD(fetaSpln,11); [dad,thetaaa]=CFD(fetaSpln,33);
 plot(thetaa,xx,thetaaa,dad,'--'); legend('I.i','5node','11node','33node')
+%%
+% <include>CFD.m</include>
